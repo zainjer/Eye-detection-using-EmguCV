@@ -16,7 +16,7 @@ namespace emgu
         static void Main(string[] args)
         {
             
-            //Edit this line to change curr
+            //Edit this line to change current camera
             int camIndex=1;
             CascadeClassifier faceCascade = new CascadeClassifier("haarcascade_frontalface_alt.xml");
             CascadeClassifier eyeCascade = new CascadeClassifier("haarcascade_eye_tree_eyeglasses.xml");      
@@ -25,15 +25,25 @@ namespace emgu
             {
                 Console.WriteLine("Camera not detected [Jaani camera to lagao koi]");
             }
+
+            //Uncomment this line
             Mat frame = new Mat();
+
+            //REMOVE THIS LINE 
+            //Mat frame = new Mat(@"C:\Users\Areeb\Pictures\yellow.jpg");
+
+
+
             while (true)
             {
                 webCamFeed.Read(frame);
                 detectEyes(frame, faceCascade, eyeCascade);
                 CvInvoke.Imshow("Webcam", frame);
+                
                 if (CvInvoke.WaitKey(30) >= 0)
                     break;
             }
+            Console.ReadLine();
         }
         private static void detectEyes(Mat frame, CascadeClassifier faceCascade, CascadeClassifier eyeCascade)
         {
@@ -59,14 +69,12 @@ namespace emgu
 
             CvInvoke.Rectangle(frame, faces[0], new MCvScalar(0, 0, 255), 1); //drawing a face on Frame
 
-            if (eyes.Length ==0) return;
+            if (eyes.Length>3) return;
 
             foreach (Rectangle eye in eyes)
             {
-                CvInvoke.Rectangle(frame, eye, new MCvScalar(255, 255, 0), 1);
+                CvInvoke.Rectangle(face, eye, new MCvScalar(0, 255, 255), 1);
             }
-
-
         }
 
         //public void RunWebCam()
